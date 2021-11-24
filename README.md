@@ -111,4 +111,75 @@ www.gulpjs.com.cn
                 .pipe(rename({ suffix: '.min' })) // 重命名
 
           })
+
+          <script type="text/javascript" src="dist/js/built.min.js"></script>
           ```
+        * 打包测试：gulp
+    * 自动编译
+      * 下载插件
+      ```
+        npm install gulp-livereload --save-dev
+      ```
+      * 配置编码
+      ```
+        var livereload = require('gulp-livereload')
+
+        // 所有的 pipe
+        .pipe(livereload())
+      ```
+    * 热加载（实时加载）
+      * 下载插件：gulp-connect
+      ```
+        1. npm install gulp-connect --save-dev
+        2. 注册热加载的任务 server， 注意依赖 build 任务
+        3. 注册热加载的任务
+          // 配置加载的选项
+          connect.server({
+            root: 'dist/', // 提供服务的根路径
+            livereload: true, // 是否实时刷新
+            port: 5000 // 开启端口号
+          })
+
+          // 自动开启链接
+          open('http://localhost:5000) // npm install open --save-dev
+          // 监视目标文件
+          gulp.watch('src/js/*.js', ['js'])
+          gulp.watch(['src/css/*.css', 'src/less/*.less'], ['cssMin'])
+      ```
+    * 处理 css
+      * 创建 less/css 文件
+        * src/css/test1.css
+          ```
+          #div1 {
+            width: 100px;
+            height: 100px;
+            background: green;
+          }
+          ```
+        * src/css/test2.css
+          ```
+          #div2 {
+            width: 200px;
+            height: 200px;
+            background: blue;
+          }
+          ```
+        * src/css/test3.less
+          ```
+          #div3 {
+            @base: yellow;
+            .index1 { color: @base; }
+            .index2 { color: green; }
+          }
+          ```
+    * 扩展
+      * 打包加载 gulp 插件
+      * 前提：将插件下载好
+      * 下载打包插件 gulp-load-plugins
+      * npm install gulp-load-plugins --save-dev
+      * 引入： var $ = require('gulp-load-plugins')() // !!! 引入的插件是对象
+      * 神来之笔：其他的插件不用再引入了
+      * 使用方法：
+        ```
+          * 所有插件用 $ 引出，其他插件的方法名统一为插件的功能名字（即
+        ```
